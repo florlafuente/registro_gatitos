@@ -44,7 +44,7 @@ function getCat(req,res) {
 // Detele cat with given id
 function deleteCat(req, res) {
   Cat.remove({_id: req.params.id}, (err, result)=>{
-    res.json({message: 'Book successfully deleted!'})
+    res.json({message: 'Cat successfully deleted!'})
   })
 }
 

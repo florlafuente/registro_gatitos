@@ -1,34 +1,31 @@
 const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const port = 3000
+const next = require('next')
 const api = require('./api')
+
+const mongoose = require('mongoose')
+const port = parseInt(process.env.PORT, 10) || 3000
+const dev = process.env.NODE_ENV !== 'production'
 let config = require('config')
+
+const app = next({ dev })
+const handle = app.getRequestHandler()
 
 //db connection
 mongoose.connect(config.DBHost)
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 
-//don't show the log when it is test
-if (config.util.getEnv('NODE_ENV') !== 'test'){
-  //use morgan to log at command line
-  app.use(morgan('combined'))//'combined' outputs the Apache style LOGs 
-}
 
-//parse application/json and look for raw text                                        
-app.use(bodyParser.json())                                     
-app.use(bodyParser.urlencoded({extended: true}))             
-app.use(bodyParser.text())                                    
-app.use(bodyParser.json({ type: 'application/json'})) 
+app.prepare()
+.then(() => {
+  const server = express()
+  server.use(express.json())
+  server.use('/api', api)
+  server.get('*', handle)
+  server.listen(port, (err)=>{
+    if (err) throw err
+    console.log('Listening on port' + port)
+  })
+})
 
-
-app.get('/', (req, res)=> res.json({message: "Arrived to api"}))
-
-app.use('/api', api)
-
-app.listen(port)
-console.log('Listening on port' + port)
 module.exports = app //for testing

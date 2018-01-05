@@ -4,7 +4,9 @@
   "description": "practicing db models and apis",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=dev && node server.js",
+    "dev": "next",
+    "build": "next build && next export",
+    "start": "nodemon server.js",
     "test": "mocha --timeout 10000"
   },
   "author": "flor",
@@ -14,7 +16,11 @@
     "config": "^1.29.0",
     "express": "^4.16.2",
     "mongoose": "^5.0.0-rc2",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "next": "^4.2.1",
+    "nodemon": "^1.14.7",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
