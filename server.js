@@ -11,10 +11,12 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 
 //db connection
-mongoose.connect(config.DBHost)
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
 
+var db = mongoose.connect('mongodb://localhost:27017/cats', function(error){
+    if(error) console.log(error);
+
+        console.log("connection successful");
+});
 
 app.prepare()
 .then(() => {
