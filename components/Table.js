@@ -22,7 +22,7 @@ export default class extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     fetch('api/cats')
       .then( r => r.json() )
       .then( data => {
