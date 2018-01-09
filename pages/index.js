@@ -15,7 +15,7 @@ const muiTheme = getMuiTheme({
   }
 })
 
-const Index = ( {cats} ) => (
+const Index = ( ) => (
   <div>
     <Head>
       <title>Missing Cats Register</title>
@@ -24,17 +24,10 @@ const Index = ( {cats} ) => (
     </Head>
     <MuiThemeProvider muiTheme={muiTheme}>
       <NavBar />
-      <Table data={cats} />
+      <Table />
     </MuiThemeProvider>
   </div>
 )
 
-Index.getInitialProps = async ({ req }) => {
-  const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : '';
-  const res = await fetch(baseUrl + '/api/cats')
-  const json = await res.json()
-  console.log(json)
-  return { cats: json}
-}
 
 export default Index

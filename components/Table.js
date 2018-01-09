@@ -1,4 +1,5 @@
 import React from 'react'
+import fetch from 'isomorphic-unfetch'
 import {
   Table,
   TableBody,
@@ -8,31 +9,51 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 
+
+
 /**
  * A simple table demonstrating the hierarchy of the `Table` component and its sub-components.
  */
-const TableExampleSimple = ( {data} ) => (
-  <Table>
-    {console.log(data)}
-    <TableHeader>
-      <TableRow>
-        <TableHeaderColumn>ID</TableHeaderColumn>
-        <TableHeaderColumn>Name</TableHeaderColumn>
-        <TableHeaderColumn>Created At</TableHeaderColumn>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {data.map((d,i)=> {
-        return (
-        <TableRow key={i}>
-          <TableRowColumn>{d._id}</TableRowColumn>
-          <TableRowColumn>{d.name}</TableRowColumn>
-          <TableRowColumn>{d.createdAt}</TableRowColumn>
-      </TableRow>
-      )
-      })}
-    </TableBody>
-  </Table>
-);
+export default class extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      cats : []
+    }
+  }
 
-export default TableExampleSimple
+  componentWillMount () {
+    fetch('api/cats')
+      .then( r => r.json() )
+      .then( data => {
+        console.log(data)
+        this.setState({ cats: data })
+    })
+  }
+
+  render() {
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderColumn>ID</TableHeaderColumn>
+            <TableHeaderColumn>Name</TableHeaderColumn>
+            <TableHeaderColumn>Created At</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+        {this.state.cats.map((cat,i)=> {
+          return (
+            <TableRow key={i}>
+              <TableRowColumn>{cat._id}</TableRowColumn>
+              <TableRowColumn>{cat.name}</TableRowColumn>
+              <TableRowColumn>{cat.createdAt}</TableRowColumn>
+            </TableRow>
+          )
+        })}
+      </TableBody>
+    </Table>
+    )
+  }
+}
+  

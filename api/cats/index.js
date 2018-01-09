@@ -3,7 +3,7 @@ const Cat = require ('../../models/cat')
 
 
 // Get all the cats
-function getCats(req, res) {
+function getCats(req, res, next) {
   //Query the DB and if no errors, send all the cats
   let query = Cat.find({})
   query.exec((err, cats) => {
@@ -15,7 +15,7 @@ function getCats(req, res) {
 
 
 //Post /cat to save a new cat
-function postCat(req, res) {
+function postCat(req, res, next) {
   //Creates a new cat
   var newCat = new Cat(req.body)
   //Save it into the DB
@@ -33,7 +33,7 @@ function postCat(req, res) {
 
 //GET /cats/:id route to retrieve a cat given its id
 
-function getCat(req,res) {
+function getCat(req,res, next) {
   Cat.findById(req.params.id, (err, book) => {
     if(err) res.send(err)
     //If no errors send it back to client
@@ -42,14 +42,14 @@ function getCat(req,res) {
 }
 
 // Detele cat with given id
-function deleteCat(req, res) {
+function deleteCat(req, res, next) {
   Cat.remove({_id: req.params.id}, (err, result)=>{
     res.json({message: 'Cat successfully deleted!'})
   })
 }
 
 // PUT /cats/:id to update a cat given its id
-function updateCat(req, res) {
+function updateCat(req, res, next) {
   Cat.findById({_id: req.params.id}, (err, cat) => {
     if(err) res.send(err)
     Object.assign(cat, req.body).save((err, cat) => {
