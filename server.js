@@ -14,9 +14,9 @@ let config = require('config')
 
 //db connection
 
-var db = mongoose.connect('mongodb://sarasa:sarasa123@ds135547.mlab.com:35547/cats', function(error){
-    if(err) throw(err);
-    console.log("connection successful");
+var db = mongoose.connect('mongodb://sarasa:sarasa123@ds135547.mlab.com:35547/cats', (error) => {
+    if(err) throw err 
+    console.log("connection successful")
 }) 
 
 app.prepare()
