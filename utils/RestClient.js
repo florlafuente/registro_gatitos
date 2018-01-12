@@ -24,7 +24,6 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
     const options = {};
     switch (type) {
     case GET_LIST: {
-        console.log(params.filter)
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
         const query = {
@@ -32,15 +31,13 @@ const convertRESTRequestToHTTP = (type, resource, params) => {
             page: JSON.stringify(page),
             limit: JSON.stringify(perPage),
             filter: JSON.stringify(params.filter),
-        };
-        console.log(query)
+        }
         url = `${API_URL}/${resource}?${stringify(query)}`;
         break;
     }
     case GET_ONE:
         url = `${API_URL}/${resource}/${params.id}`;
         break;
-    
     case UPDATE:
         url = `${API_URL}/${resource}/${params.id}`;
         options.method = 'PUT';
@@ -82,7 +79,7 @@ const convertHTTPResponseToREST = (response, type, resource, params) => {
             total: parseInt(json.total)
         };
     case CREATE:
-        return { data: { ...params.data, id: json.id } };
+        return { data: { ...params.data, id: json._id } };
     default:
         return { data: json };
     }

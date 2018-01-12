@@ -30,8 +30,7 @@ function postCat(req, res, next) {
       res.send(err)
     } else {
       //If no errors, send a successfull message to user
-      res.status(200)
-      res.json({message: "Cat successfully added!"})
+      res.status(200).json(newCat)
     }
   })
 }
@@ -40,7 +39,7 @@ function postCat(req, res, next) {
 //GET /cats/:id route to retrieve a cat given its id
 
 function getCat(req,res, next) {
-  Cat.findById(req.params.id, (err, book) => {
+  Cat.findById(req.params.id, (err, cat) => {
     if(err) res.send(err)
     //If no errors send it back to client
     res.json(cat)
