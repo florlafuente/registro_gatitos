@@ -1,15 +1,21 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const Cat = require ('../../models/cat')
 
 
 // Get all the cats
 function getCats(req, res, next) {
+  const options =  {
+    page: parseInt(req.query.page),
+    limit: parseInt(req.query.limit),
+    sort: {
+      [JSON.parse(req.query.sort)[0]] : JSON.parse(req.query.sort)[1].toLowerCase()
+    }
+  }
   //Query the DB and if no errors, send all the cats
-  let query = Cat.find({})
-  query.exec((err, cats) => {
+  Cat.paginate({}, options , (err, result)=> {
     if (err) res.send(err)
-    //If no errors send all the cats
-    res.json(cats)
+    res.json(result)
   })
 }
 

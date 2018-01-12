@@ -1,4 +1,5 @@
 let mongoose = require('mongoose')
+let mongoosePaginate = require('mongoose-paginate')
 let Schema = mongoose.Schema
 
 //cat schema definition
@@ -26,5 +27,6 @@ CatSchema.pre('save', next => {
   next()
 })
 
+CatSchema.plugin(mongoosePaginate)
 //Exports the BookSchema for use elsewhere.
 module.exports = mongoose.model('cat', CatSchema);
